@@ -1,0 +1,21 @@
+    
+version: '3.7'
+services:
+  db:
+    image: mysql:5.7
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      - MYSQL_ROOT_PASSWORD=dave
+    volumes:
+      - /Users/carlalder/Desktop/coding_programme/rails/myapp/tmp/db:/var/lib/mysql/
+    ports:
+      - "4000:3306"
+  web:
+    build: .
+    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
+    volumes:
+      - /Users/carlalder/Desktop/coding_programme/rails/myapp:/myapp
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
